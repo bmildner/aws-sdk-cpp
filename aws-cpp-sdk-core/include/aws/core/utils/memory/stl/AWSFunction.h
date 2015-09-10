@@ -28,22 +28,20 @@ namespace Aws
 template<typename F>
 std::function< F > BuildFunction(const F &f) 
 {
-    return std::function< F >(std::allocator_arg_t(), Aws::Allocator<void>(), f );
+    return std::function< F >( f, Aws::Allocator<void>() );
 }
 
 // some things, like bind results, don't implicity convert to direct function types, catch those with specializations
 template<typename F>
 std::function< F > BuildFunction(const std::function< F > &f) 
 {
-    return std::function< F >(std::allocator_arg_t(), Aws::Allocator<void>(), f);
+    return std::function< F >( f, Aws::Allocator<void>() );
 }
 
 template<typename F>
 std::function< F > BuildFunction(std::function< F > &&f) 
 {
-    // TODO: there seems to be no move c'tor that also takes an allocator !?
-    //return std::function< F >( std::move(f), Aws::Allocator<void>() );
-    return std::function< F >(std::move(f));
+    return std::function< F >( std::move(f), Aws::Allocator<void>() );
 }
 
 } // namespace Aws

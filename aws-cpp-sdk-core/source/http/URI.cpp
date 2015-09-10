@@ -142,32 +142,32 @@ Aws::String URI::GetUnEncodedPath() const
 
 QueryStringParameterCollection URI::GetQueryStringParameters(bool decode) const
 {
-    Aws::String localQueryString = GetQueryString();
+    Aws::String queryString = GetQueryString();
 
     QueryStringParameterCollection parameterCollection;
 
     //if we actually have a query string
-    if (localQueryString.size() > 0)
+    if (queryString.size() > 0)
     {
         size_t currentPos = 1, locationOfNextDelimiter = 1;
 
         //while we have params left to parse
-        while (currentPos < localQueryString.size())
+        while (currentPos < queryString.size())
         {
             //find next key/value pair
-            locationOfNextDelimiter = localQueryString.find('&', currentPos);
+            locationOfNextDelimiter = queryString.find('&', currentPos);
 
             Aws::String keyValuePair;
 
             //if this isn't the last parameter
             if (locationOfNextDelimiter != Aws::String::npos)
             {
-                keyValuePair = localQueryString.substr(currentPos, locationOfNextDelimiter - currentPos);
+                keyValuePair = queryString.substr(currentPos, locationOfNextDelimiter - currentPos);
             }
             //if it is the last parameter
             else
             {
-                keyValuePair = localQueryString.substr(currentPos);
+                keyValuePair = queryString.substr(currentPos);
             }
 
             //split on =
